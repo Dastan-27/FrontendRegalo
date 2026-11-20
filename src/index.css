@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ── Archivo Raíz de Diseño: Fuentes, Paleta y Tokens ── */
+@theme {
+  --font-playfair: "Playfair Display", serif;
+  --font-dancing: "Dancing Script", cursive;
+  --font-vibes: "Great Vibes", cursive;
+  --font-nunito: "Nunito", sans-serif;
+
+  /* Paleta cromática central */
+  --color-cream: #FDF8F5;
+  --color-cream-light: #FFFBF9;
+  --color-card: #FFFFFF;
+  --color-border: #F2E2DC;
+  --color-rosa: #D88C9A;
+  --color-rosa-hover: #C67685;
+  --color-rosa-soft: #FDECEF;
+  --color-lavender-soft: #F4ECF7;
+  --color-durazno: #F2D0A9;
+  --color-texto: #4A3B3C;
+  --color-texto-muted: #8E7B7D;
+
+  /* NUEVO: sombras suaves reutilizables para las tarjetas */
+  --shadow-card: 0 4px 20px -6px rgba(74, 59, 60, 0.06);
+  --shadow-card-hover: 0 16px 36px -8px rgba(216, 140, 154, 0.25);
+}
+
+/* ── Base Layer ── */
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    font-family: var(--font-nunito);
+    color: var(--color-texto);
+    background-color: var(--color-cream);
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* ── Scrollbar sutil ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+/* ── Clases auxiliares de fuentes ── */
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+
+.font-dancing {
+  font-family: var(--font-dancing);
+}
+
+.font-vibes {
+  font-family: var(--font-vibes);
+}
+
+.font-nunito {
+  font-family: var(--font-nunito);
+}
+
+/* ── Textura de ruido (papel) ── */
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ── Animaciones existentes (sin cambios) ── */
+@keyframes float-bg-heart {
+  /* ... */
+}
+
+.animate-float-bg-heart {
+  animation: float-bg-heart linear infinite;
+}
+
+@keyframes heartbeat {
+  /* ... */
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes float-up {
+  /* ... */
+}
+
+.animate-float-heart {
+  animation: float-up 1.6s ease-out forwards;
+}
+
+@keyframes blink-cursor {
+  /* ... */
+}
+
+.animate-blink {
+  animation: blink-cursor 0.8s step-end infinite;
+}
+
+/* ── NUEVO: Efecto de borde izquierdo con gradiente sutil ── */
+.border-accent-left {
+  position: relative;
+}
+
+.border-accent-left::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, transparent, currentColor, transparent);
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.group:hover .border-accent-left::before {
+  opacity: 1;
+}
