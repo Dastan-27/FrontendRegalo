@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { playCutePop, playSoftChime } from "../utils/soundEffects";
 
 const FUNNY_TEXTS = [
   "No, no me interesa",
@@ -45,6 +46,7 @@ export default function WelcomeScreen({ onYes, onPrank }) {
   const handleNoClick = useCallback(
     (e) => {
       e.stopPropagation();
+      playCutePop(0.2);
       const nextClicks = noClicks + 1;
       setNoClicks(nextClicks);
 
@@ -235,7 +237,10 @@ export default function WelcomeScreen({ onYes, onPrank }) {
           <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            onClick={onYes}
+            onClick={() => {
+              playSoftChime(0.2);
+              onYes();
+            }}
             className="group relative w-full cursor-pointer overflow-hidden rounded-full bg-gradient-to-r from-[#D88C9A] via-[#E098A6] to-[#C67685] px-8 py-4 font-nunito text-base font-bold text-white shadow-[0_10px_28px_-6px_rgba(216,140,154,0.55)] transition-all hover:shadow-[0_16px_36px_-6px_rgba(216,140,154,0.7)]"
           >
             {/* Brillo suave al hover */}

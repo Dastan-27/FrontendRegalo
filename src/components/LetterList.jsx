@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Mail, MailOpen, Shuffle, Sparkles, Heart } from "lucide-react";
 import { getCartasPorEmocion, getCartaAleatoria } from "../api/client";
+import { playCutePop, playSoftChime } from "../utils/soundEffects";
 
 export default function LetterList({ emocion, onOpenCarta, onBack }) {
   const [cartas, setCartas] = useState([]);
@@ -18,6 +19,7 @@ export default function LetterList({ emocion, onOpenCarta, onBack }) {
   }, [emocion.id]);
 
   const handleRandomEmocion = async () => {
+    playCutePop(0.18);
     setRandomLoading(true);
     try {
       const carta = await getCartaAleatoria(emocion.id);
@@ -37,7 +39,10 @@ export default function LetterList({ emocion, onOpenCarta, onBack }) {
           <motion.button
             whileHover={{ scale: 1.08, x: -2 }}
             whileTap={{ scale: 0.94 }}
-            onClick={onBack}
+            onClick={() => {
+              playCutePop(0.15);
+              onBack();
+            }}
             className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-2xl border border-[#F2E2DC] bg-white/90 text-[#4A3B3C] shadow-[0_4px_14px_rgba(74,59,60,0.06)] backdrop-blur-sm transition-all hover:border-[#D88C9A] hover:bg-white hover:text-[#D88C9A]"
             aria-label="Volver al menú de emociones"
           >
@@ -114,7 +119,10 @@ export default function LetterList({ emocion, onOpenCarta, onBack }) {
                 whileTap={{ scale: 0.98 }}
                 onMouseEnter={() => setHoveredId(carta.id)}
                 onMouseLeave={() => setHoveredId(null)}
-                onClick={() => onOpenCarta(carta)}
+                onClick={() => {
+                  playSoftChime(0.18);
+                  onOpenCarta(carta);
+                }}
                 className="group relative flex cursor-pointer items-center gap-5 rounded-3xl border border-[#F2E2DC] bg-white/95 p-6 sm:p-7 text-left shadow-[0_6px_22px_-6px_rgba(74,59,60,0.06)] transition-all duration-300 hover:border-[#D88C9A]/60 hover:shadow-[0_16px_36px_-8px_rgba(216,140,154,0.3)]"
               >
                 {/* Icono de sobre interactivo */}

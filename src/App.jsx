@@ -6,6 +6,7 @@ import EmotionMenu from "./components/EmotionMenu";
 import LetterList from "./components/LetterList";
 import LetterModal from "./components/LetterModal";
 import FloatingAmorButton from "./components/FloatingAmorButton";
+import BackgroundMusic from "./components/BackgroundMusic";
 
 // Partículas y corazones ambientales de fondo que unifican toda la app
 const GLOBAL_AMBIENT_HEARTS = [
@@ -156,6 +157,9 @@ export default function App() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* ── Música de Fondo y Control de Volumen Global ── */}
+      <BackgroundMusic />
 
       {/* ── Botón flotante AMOR!!! protagonista con glow y audio ── */}
       <AnimatePresence>

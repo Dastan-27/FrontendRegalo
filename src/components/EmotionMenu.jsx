@@ -16,6 +16,7 @@ import {
   MailOpen,
 } from "lucide-react";
 import { getEmociones, getCartaAleatoria } from "../api/client";
+import { playCutePop, playSoftChime } from "../utils/soundEffects";
 
 // Paleta pastel armonizada (estilo acuarela suave, sin colores estridentes)
 const EMOTION_CONFIG = {
@@ -130,7 +131,10 @@ export default function EmotionMenu({ onSelectEmocion, onOpenCarta }) {
           <motion.button
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.97 }}
-            onClick={handleRandomGlobal}
+            onClick={() => {
+              playSoftChime(0.18);
+              handleRandomGlobal();
+            }}
             disabled={randomLoading}
             className="group inline-flex cursor-pointer items-center gap-2.5 rounded-full bg-gradient-to-r from-[#D88C9A] to-[#CA7A8A] px-7 py-3 font-nunito text-sm font-semibold text-white shadow-[0_8px_24px_-6px_rgba(216,140,154,0.55)] transition-all hover:shadow-[0_12px_28px_-6px_rgba(216,140,154,0.7)] disabled:opacity-60"
           >
@@ -205,7 +209,10 @@ export default function EmotionMenu({ onSelectEmocion, onOpenCarta }) {
                 }}
                 whileHover={{ y: -3 }}
                 whileTap={{ scale: 0.985 }}
-                onClick={() => onSelectEmocion(emocion)}
+                onClick={() => {
+                  playCutePop(0.18);
+                  onSelectEmocion(emocion);
+                }}
                 className={`group flex w-full cursor-pointer items-center justify-between gap-4 rounded-2xl border border-[#F2E2DC]/90 bg-white/85 p-5 text-left shadow-[0_4px_20px_-8px_rgba(74,59,60,0.06)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_12px_28px_-10px_rgba(216,140,154,0.22)] ${config.hoverBorder} ${config.accentBg}`}
               >
                 <div className="flex min-w-0 items-center gap-4">

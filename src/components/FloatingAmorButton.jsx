@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Headphones, Volume2, Sparkles } from "lucide-react";
 import { getExtras, resolveUrl } from "../api/client";
+import { playHeartTap } from "../utils/soundEffects";
 
 export default function FloatingAmorButton() {
   const [extras, setExtras] = useState(null);
@@ -17,6 +18,7 @@ export default function FloatingAmorButton() {
   }, []);
 
   const handleClick = useCallback(() => {
+    playHeartTap(0.25);
     const url = resolveUrl(extras?.audio_amor_url);
 
     if (!url) {
