@@ -492,8 +492,22 @@ export const CARTAS_DATA = {
     },
   ],
   extras: {
-    audio_amor: "amor.m4a",
-    audio_amor_url: "/static/audios/amor.m4a",
+    audio_amor: "amor_01.m4a",
+    audio_amor_url: "/static/audios/amor_01.m4a",
+    audios_amor: [
+      "amor_01.m4a",
+      "amor_02.m4a",
+      "amor_03.m4a",
+      "amor_04.m4a",
+      "amor_05.m4a",
+    ],
+    audios_amor_urls: [
+      "/static/audios/amor_01.m4a",
+      "/static/audios/amor_02.m4a",
+      "/static/audios/amor_03.m4a",
+      "/static/audios/amor_04.m4a",
+      "/static/audios/amor_05.m4a",
+    ],
     link_broma_final: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
 };

@@ -181,18 +181,28 @@ export async function getCarta(cartaId) {
 export async function getExtras() {
   try {
     const extras = await request("/api/extras");
-    if (extras && extras.audio_amor_url) {
+    if (extras) {
+      const urls = (extras.audios_amor_urls || []).map(resolveUrl).filter(Boolean);
+      const single = resolveUrl(extras.audio_amor_url);
       return {
         ...extras,
-        audio_amor_url: resolveUrl(extras.audio_amor_url),
+        audio_amor_url: single,
+        audios_amor_urls: urls.length > 0 ? urls : (single ? [single] : []),
       };
     }
   } catch (e) {
     // fallback
   }
 
+  const fallbackUrls = (CARTAS_DATA.extras.audios_amor_urls || [])
+    .map(resolveUrl)
+    .filter(Boolean);
+  const fallbackSingle = resolveUrl(CARTAS_DATA.extras.audio_amor_url);
+
   return {
     ...CARTAS_DATA.extras,
-    audio_amor_url: resolveUrl(CARTAS_DATA.extras.audio_amor_url),
+    audio_amor_url: fallbackSingle,
+    audios_amor_urls:
+      fallbackUrls.length > 0 ? fallbackUrls : (fallbackSingle ? [fallbackSingle] : []),
   };
 }

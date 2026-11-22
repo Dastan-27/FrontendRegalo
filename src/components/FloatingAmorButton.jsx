@@ -10,37 +10,69 @@ export default function FloatingAmorButton() {
   const [toast, setToast] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
+  const lastPlayedUrlRef = useRef(null);
 
   useEffect(() => {
     getExtras()
       .then(setExtras)
       .catch(() => { });
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
   }, []);
 
   const handleClick = useCallback(() => {
     playHeartTap(0.25);
-    const url = resolveUrl(extras?.audio_amor_url);
 
-    if (!url) {
+    // Obtener la lista de audios disponibles
+    const pool = extras?.audios_amor_urls?.length
+      ? extras.audios_amor_urls
+      : extras?.audio_amor_url
+        ? [extras.audio_amor_url]
+        : [];
+
+    if (!pool || pool.length === 0) {
       setToast(true);
       setTimeout(() => setToast(false), 3200);
       return;
     }
 
-    if (!audioRef.current) {
-      audioRef.current = new Audio(url);
-      audioRef.current.addEventListener("ended", () => setIsPlaying(false));
-      audioRef.current.addEventListener("pause", () => setIsPlaying(false));
-      audioRef.current.addEventListener("play", () => setIsPlaying(true));
-      audioRef.current.addEventListener("error", () => {
-        setIsPlaying(false);
-        setToast(true);
-        setTimeout(() => setToast(false), 3200);
-      });
+    // Seleccionar uno al azar asegurando que no repita el inmediatamente anterior (si hay > 1)
+    const available =
+      pool.length > 1
+        ? pool.filter((u) => u !== lastPlayedUrlRef.current)
+        : pool;
+    const nextUrl =
+      available.length > 0
+        ? available[Math.floor(Math.random() * available.length)]
+        : pool[0];
+
+    lastPlayedUrlRef.current = nextUrl;
+
+    // Si ya había un audio reproduciéndose o cargado, lo detenemos para iniciar el nuevo
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
     }
 
-    audioRef.current.currentTime = 0;
-    audioRef.current
+    const audio = new Audio(nextUrl);
+    audioRef.current = audio;
+
+    audio.addEventListener("ended", () => setIsPlaying(false));
+    audio.addEventListener("pause", () => setIsPlaying(false));
+    audio.addEventListener("play", () => setIsPlaying(true));
+    audio.addEventListener("error", () => {
+      setIsPlaying(false);
+      setToast(true);
+      setTimeout(() => setToast(false), 3200);
+    });
+
+    audio
       .play()
       .then(() => setIsPlaying(true))
       .catch(() => {
